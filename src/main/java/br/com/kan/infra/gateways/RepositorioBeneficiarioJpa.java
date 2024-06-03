@@ -59,7 +59,9 @@ public class RepositorioBeneficiarioJpa implements RepositorioBeneficiario {
         if(beneficiario != null){
             BeneficiarioEntity beneficiarioEntity =  mapper.toEntity(beneficiario);
             repositorioDocumento.deletarDocumentos(beneficiarioEntity);
+            repository.delete(beneficiarioEntity);
         }
+
 
     }
 
