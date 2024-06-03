@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface RepositorioDocumento {
 
-    void cadastrarDocumentos(List<Documento> listDocumento, BeneficiarioEntity beneficiarioEntity);
+    void cadastrarDocumentos(List<Documento> listDocumento, BeneficiarioEntity beneficiarioEntity) throws Exception;
 
-   void deletarDocumentos(BeneficiarioEntity beneficiarioEntity);
+   void deletarDocumentos(BeneficiarioEntity beneficiarioEntity) throws Exception;
 
 
 }

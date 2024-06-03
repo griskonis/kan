@@ -18,11 +18,15 @@ public class ListarBeneficiarios {
 
     public List<Beneficiario> listarBeneficiarios() {
 
-        return this.repositorioBeneficiario.listarTodos();
+        try {
+            return this.repositorioBeneficiario.listarTodos();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
-    public Beneficiario beneficiarioById(Long id) {
+    public Beneficiario beneficiarioById(Long id) throws Exception {
 
         return this.repositorioBeneficiario.beneficiarioById(id);
 

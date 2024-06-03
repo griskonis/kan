@@ -26,52 +26,57 @@ public class BeneficiarioUseCases {
         this.repositorioDocumento = repositorioDocumento;
     }
 
-    public BeneficiarioDto cadastrarBeneficiario(BeneficiarioDto beneficiarioDto){
+    public BeneficiarioDto cadastrarBeneficiario(BeneficiarioDto beneficiarioDto) throws Exception {
 
-        List<Documento> listDocumento = new ArrayList<>();
-
-        if(beneficiarioDto.listDocumentoDto() !=null){
-
-            for(DocumentoDto documentoDto : beneficiarioDto.listDocumentoDto()){
-
-                Documento documento = new Documento(0,documentoDto.tipoDocumento(),documentoDto.descricao(),documentoDto.dataInclusao(),documentoDto.dataAlteracao());
-                documento.setTipoDocumento(documentoDto.tipoDocumento());
-                listDocumento.add(documento);
-
-            }
-
-            Beneficiario beneficiario =     new Beneficiario(0, beneficiarioDto.nome(),beneficiarioDto.telefone(),beneficiarioDto.dataNascimento(),
-                    beneficiarioDto.dataInclusao(),beneficiarioDto.dataAlteracao(),listDocumento);
-
-            repositorioBeneficiario.cadastrarBeneficiario(beneficiario);
+        try{
 
 
-            List<DocumentoDto> documentoListDto = new ArrayList<>();
+            List<Documento> listDocumento = new ArrayList<>();
 
-            for(Documento documento : beneficiario.getListDocumento()){
+            if(beneficiarioDto.listDocumentoDto() !=null){
 
-                DocumentoDto documentoDto = new DocumentoDto(0,documento.getTipoDocumento(),documento.getDescricao(),documento.getDataInclusao(),documento.getDataAlteracao());
-                documentoListDto.add(documentoDto);
+                for(DocumentoDto documentoDto : beneficiarioDto.listDocumentoDto()){
 
-            }
+                    Documento documento = new Documento(0,documentoDto.tipoDocumento(),documentoDto.descricao(),documentoDto.dataInclusao(),documentoDto.dataAlteracao());
+                    documento.setTipoDocumento(documentoDto.tipoDocumento());
+                    listDocumento.add(documento);
+
+                }
+
+                Beneficiario beneficiario =     new Beneficiario(0, beneficiarioDto.nome(),beneficiarioDto.telefone(),beneficiarioDto.dataNascimento(),
+                        beneficiarioDto.dataInclusao(),beneficiarioDto.dataAlteracao(),listDocumento);
+
+                repositorioBeneficiario.cadastrarBeneficiario(beneficiario);
 
 
-            BeneficiarioDto beneficiarioDtoReturn = new BeneficiarioDto(beneficiario.getId(),beneficiario.getNome(),beneficiario.getTelefone(),beneficiario.getDataNascimento(),
-                    beneficiario.getDataInclusao(),beneficiario.getDataAlteracao(),documentoListDto);
+                List<DocumentoDto> documentoListDto = new ArrayList<>();
 
-            return  beneficiarioDtoReturn;
+                for(Documento documento : beneficiario.getListDocumento()){
+
+                    DocumentoDto documentoDto = new DocumentoDto(0,documento.getTipoDocumento(),documento.getDescricao(),documento.getDataInclusao(),documento.getDataAlteracao());
+                    documentoListDto.add(documentoDto);
+
+                }
+
+
+                BeneficiarioDto beneficiarioDtoReturn = new BeneficiarioDto(beneficiario.getId(),beneficiario.getNome(),beneficiario.getTelefone(),beneficiario.getDataNascimento(),
+                        beneficiario.getDataInclusao(),beneficiario.getDataAlteracao(),documentoListDto);
+
+                return  beneficiarioDtoReturn;
 
 
         }else {
             return  null;
         }
 
-
+        } catch (Exception e) {
+            throw new Exception("Erro cadastrarBeneficiario", e);
+        }
 
 
     }
 
-    public BeneficiarioDtoSemDoc atualizarBeneficiario(Long id,BeneficiarioDtoSemDoc beneficiarioDtoSemDoc){
+    public BeneficiarioDtoSemDoc atualizarBeneficiario(Long id,BeneficiarioDtoSemDoc beneficiarioDtoSemDoc) throws Exception {
 
         List<Documento> listDocumento = new ArrayList<>();
 
@@ -112,7 +117,7 @@ public class BeneficiarioUseCases {
 
     }
 
-    public HttpStatus deletarBeneficiario(Long id){
+    public HttpStatus deletarBeneficiario(Long id) throws Exception {
 
         Beneficiario beneficiario= this.repositorioBeneficiario.beneficiarioById(id);
 

@@ -23,26 +23,36 @@ public class RepositorioDocumentoJpa implements RepositorioDocumento {
     }
 
     @Override
-    public void cadastrarDocumentos(List<Documento> listDocumento,BeneficiarioEntity beneficiarioEntity) {
-        List<DocumentoEntity> listDocumentoEntity = mapper.toEntity(listDocumento,beneficiarioEntity);
+    public void cadastrarDocumentos(List<Documento> listDocumento,BeneficiarioEntity beneficiarioEntity) throws Exception {
 
-        beneficiarioEntity.setListDocumento(listDocumentoEntity);
+        try {
+            List<DocumentoEntity> listDocumentoEntity = mapper.toEntity(listDocumento,beneficiarioEntity);
 
-        for(DocumentoEntity documentoEntity : listDocumentoEntity){
-            repository.save(documentoEntity);
+            beneficiarioEntity.setListDocumento(listDocumentoEntity);
+
+            for(DocumentoEntity documentoEntity : listDocumentoEntity){
+                repository.save(documentoEntity);
+            }
+
+            for(DocumentoEntity documentoEntity : listDocumentoEntity){
+                repository.save(documentoEntity);
+            }
+        } catch (Exception e) {
+            throw new Exception("Erro cadastrarDocumentos", e);
         }
 
-        for(DocumentoEntity documentoEntity : listDocumentoEntity){
-            repository.save(documentoEntity);
-        }
     }
 
     @Transactional
     @Override
-    public void deletarDocumentos(BeneficiarioEntity beneficiarioEntity) {
+    public void deletarDocumentos(BeneficiarioEntity beneficiarioEntity) throws Exception {
 
+     try{
+         repository.deletardocumentoById(beneficiarioEntity.getId());
+     } catch (Exception e) {
+         throw new Exception("Erro deletarDocumentos", e);
+     }
 
-        repository.deletardocumentoById(beneficiarioEntity.getId());
 
     }
 }

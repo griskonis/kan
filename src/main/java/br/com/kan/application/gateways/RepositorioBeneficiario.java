@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface RepositorioBeneficiario {
 
-        Beneficiario cadastrarBeneficiario(Beneficiario beneficiario);
+        Beneficiario cadastrarBeneficiario(Beneficiario beneficiario) throws Exception;
 
-       List<Beneficiario> listarTodos();
+       List<Beneficiario> listarTodos() throws Exception;
 
-    Beneficiario atualizarBeneficiario(Beneficiario beneficiario);
+    Beneficiario atualizarBeneficiario(Beneficiario beneficiario) throws Exception;
 
-    void deletarBeneficiario(Beneficiario beneficiario);
+    void deletarBeneficiario(Beneficiario beneficiario) throws Exception;
 
-    Beneficiario beneficiarioById(Long id);
+    Beneficiario beneficiarioById(Long id) throws Exception;
 }

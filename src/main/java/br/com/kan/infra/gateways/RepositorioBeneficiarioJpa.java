@@ -30,7 +30,7 @@ public class RepositorioBeneficiarioJpa implements RepositorioBeneficiario {
     }
 
     @Override
-    public Beneficiario cadastrarBeneficiario(Beneficiario beneficiario) {
+    public Beneficiario cadastrarBeneficiario(Beneficiario beneficiario) throws Exception {
         BeneficiarioEntity beneficiarioEntity = mapper.toEntity(beneficiario);
         repository.save(beneficiarioEntity);
         repositorioDocumento.cadastrarDocumentos(beneficiario.getListDocumento(), beneficiarioEntity);
@@ -39,37 +39,59 @@ public class RepositorioBeneficiarioJpa implements RepositorioBeneficiario {
     }
 
     @Override
-    public List<Beneficiario> listarTodos() {
-        return this.repository.findAll().stream()
-                .map(mapper::toDomain)
-                .collect(Collectors.toList());
-    }
+    public List<Beneficiario> listarTodos() throws Exception {
 
-    @Override
-    public Beneficiario atualizarBeneficiario(Beneficiario beneficiario) {
-       BeneficiarioEntity beneficiarioEntity =  mapper.toEntity(beneficiario);
-       repository.save(beneficiarioEntity);
-        return mapper.toDomain(beneficiarioEntity);
+        try {
+            return this.repository.findAll().stream()
+                    .map(mapper::toDomain)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new Exception("Erro listarTodos", e);
+        }
 
     }
 
     @Override
-    public void deletarBeneficiario(Beneficiario beneficiario) {
-
-        if(beneficiario != null){
+    public Beneficiario atualizarBeneficiario(Beneficiario beneficiario) throws Exception {
+        try{
             BeneficiarioEntity beneficiarioEntity =  mapper.toEntity(beneficiario);
-            repositorioDocumento.deletarDocumentos(beneficiarioEntity);
-            repository.delete(beneficiarioEntity);
+            repository.save(beneficiarioEntity);
+            return mapper.toDomain(beneficiarioEntity);
+
+        } catch (Exception e) {
+            throw new Exception("Erro atualizarBeneficiario", e);
+        }
+
+    }
+
+    @Override
+    public void deletarBeneficiario(Beneficiario beneficiario) throws Exception {
+
+        try{
+            if(beneficiario != null){
+                BeneficiarioEntity beneficiarioEntity =  mapper.toEntity(beneficiario);
+                repositorioDocumento.deletarDocumentos(beneficiarioEntity);
+                repository.delete(beneficiarioEntity);
+            }
+        } catch (Exception e) {
+            throw new Exception("Erro deletarBeneficiario", e);
         }
 
 
+
     }
 
-    public Beneficiario beneficiarioById(Long id) {
+    public Beneficiario beneficiarioById(Long id) throws Exception {
 
-        BeneficiarioEntity beneficiarioEntity = this.repository.beneficiarioById(id);
+        try {
+            BeneficiarioEntity beneficiarioEntity = this.repository.beneficiarioById(id);
 
-        return mapper.toDomain(beneficiarioEntity);
+            return mapper.toDomain(beneficiarioEntity);
+        } catch (Exception e) {
+            throw new Exception("Erro beneficiarioById", e);
+        }
+
+
     }
 
 
