@@ -110,10 +110,17 @@ public class BeneficiarioController {
         } catch (Exception e) {
             throw new Exception("Erro BeneficiarioDtoSemDoc", e);
         }
-
-
-
     }
 
+    @DeleteMapping(value = "/{id}")
+    public HttpStatus teste2(@PathVariable Long id) throws Exception {
+
+
+        try {
+            return this.beneficiarioUseCases.deletarBeneficiario(id);
+        } catch (Exception e) {
+            throw new Exception("Erro BeneficiarioDtoSemDoc", e);
+        }
+    }
 
 }
